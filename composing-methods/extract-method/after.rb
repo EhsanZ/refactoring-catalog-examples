@@ -1,11 +1,10 @@
 class Employee
-  attr_accessor :name, :email, :country, :city, :years_of_service
+  attr_accessor :name, :email, :location, :years_of_service
 
-  def initialize(name, email, country, city, years_of_service)
+  def initialize(name, email, location, years_of_service)
     @name = name
     @email = email
-    @country = country
-    @city = city
+    @location = location
     @years_of_service = years_of_service
   end
 
@@ -22,8 +21,8 @@ class Employee
       send_message('invalid country/city name')
     end
 
-    @city = new_city
-    @country = new_country
+    set_location
+    pay_for_relocating
   end
 
   private
@@ -37,13 +36,18 @@ class Employee
     message.send
   end
 
-  def pay_for_relocating
-    return if @years_of_service < 5 || !from_saudi_arabia?
-    relocation_fee = @years_of_service * 400
-    Payment.new(relocation_fee, @email)
+  def set_location(city, country)
+    @location = { 'city': city, 'country': country }
   end
 
+  def pay_for_relocating
+    return if @years_of_service < 5 || !from_saudi_arabia?
+
+    Payment.new(@years_of_service * 400, @email)
+  end
+
+  # No local variables
   def from_saudi_arabia?
-    @country == 'Saudi Arabia'
+    @location['country'] == 'Saudi Arabia'
   end
 end
