@@ -10,9 +10,9 @@ class Book
     ratings = Rating.search(author: @author, value: 5)
 
     if ratings.count > 100
-      Discount.new(factor: 0.90)
+      Discount.new(factor: 0.90, item: self)
     else
-      Discount.new(factor: 0.50)
+      Discount.new(factor: 0.50, item: self)
     end
 
     Email.new(

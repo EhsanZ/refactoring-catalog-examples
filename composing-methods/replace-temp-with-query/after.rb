@@ -7,7 +7,7 @@ class Book
   end
 
   def discount
-    Discount.new(factor: factor)
+    Discount.new(factor: factor, item: self)
     send_notification_to_readers
   end
 
